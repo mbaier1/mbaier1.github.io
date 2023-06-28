@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import '../Styles/NewTodo.css'
 
-const NewTodo = ({ onCreateNewTodo }) => {
+const NewTodo = ({ onCreateNewTodo, onCompletedNewDoto }) => {
   const [createTitle, setCreateTitle] = useState('')
   const [createTask, setCreateTask] = useState('')
 
@@ -16,20 +16,25 @@ const NewTodo = ({ onCreateNewTodo }) => {
   const CreateNewTodo = (event) => {
     event.preventDefault()
 
-    let todo = {
-      id: Math.random().toString(),
-      title: createTitle,
-      task: createTask,
-      isComplete: false,
+    if (createTitle && createTask) {
+      let todo = {
+        id: Math.random().toString(),
+        title: createTitle,
+        task: createTask,
+        isComplete: false,
+      }
+
+      onCreateNewTodo(todo)
+      onCompletedNewDoto(false)
     }
+  }
 
-    console.log(todo)
-
-    onCreateNewTodo(todo)
+  const hideNewTodoHandler = () => {
+    onCompletedNewDoto(false)
   }
 
   return (
-    <div className="container text-center">
+    <div className="container px-4 text-center">
       <div className="row align-items-start">
         <div className="col">
           <h2>Create New Todo</h2>
@@ -59,6 +64,15 @@ const NewTodo = ({ onCreateNewTodo }) => {
             <button className="btn btn-primary" type="submit">
               Add
             </button>
+            <div className="new-todo__cancel">
+              <button
+                type="button"
+                onClick={hideNewTodoHandler}
+                className="btn btn-secondary"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </form>
       </div>

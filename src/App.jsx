@@ -39,16 +39,46 @@ function App() {
 
   const [todos, setTodos] = useState(todoItems)
 
+  const [showNewTodo, setShowNewTodo] = useState(false)
+
   const addNewTodoHandler = (todo) => {
     setTodos((prevState) => {
       return [...prevState, todo]
     })
   }
 
+  const renderNewTodoHandler = () => {
+    setShowNewTodo(true)
+  }
+
+  const minifyNewTodoHandler = () => {
+    setShowNewTodo(false)
+  }
+
   return (
     <div>
       <div>
-        <NewTodo onCreateNewTodo={addNewTodoHandler} />
+        {!showNewTodo && (
+          <div className="container text-center">
+            <div className="row align-items-start">
+              <div className="col">
+                <button
+                  onClick={renderNewTodoHandler}
+                  className="btn btn-primary"
+                  type="button"
+                >
+                  Create New Todo
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {showNewTodo && (
+          <NewTodo
+            onCompletedNewDoto={minifyNewTodoHandler}
+            onCreateNewTodo={addNewTodoHandler}
+          />
+        )}
       </div>
       <TodoList items={todos} />
     </div>
